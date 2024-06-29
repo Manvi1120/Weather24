@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../Style/styles.css">
+  <title>Feedback Form</title>
+  
+</head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-image: url('https://race.com/wp-content/uploads/2023/04/can-weather-impact-wifi-1000x510.webp');
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  color:#fff;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 1px solid white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  text-align: center;
+  display: block;
+  margin-bottom: 8px;
+  color:#fff;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="submit"]:focus {
+  outline: none;
+}
+#feed{
+  color:#fff;
+  text-align: center;
+}
+#my-form{
+  text-align: center;
+}
+</style>
+<body>
+  <h1 id="feed">Feedback Form</h1>
+  <form id="myform" action="/submit-feedback" method="POST">
+    <label for="name">Your Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <label for="email">Your Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+    
+    <label for="feedback">Your Feedback:</label><br>
+    <textarea id="feedback" name="feedback" rows="4" required></textarea><br><br>
+    
+    <button type="submit">Submit Feedback</button>
+  </form>
+  <script>
+    // Check if user is logged in
+    let btn = document.querySelector("button");
+    btn.addEventListener("click",()=>{
+      window.open("thank.html");
+    });
+    function isLoggedIn() {
+      return localStorage.getItem('userToken') !== null;
+    }
+
+    
+    function toggleFeedbackForm() {
+      var form = document.getElementById('myform');
+      if (isLoggedIn()) {
+        
+        form.style.display = 'block';
+        btn.addEventListener("click",()=>{
+
+          form.style.display = 'block';
+        btn.addEventListener("click", () => {
+          let textareaValue = document.querySelector("textarea").value;
+          let feedbackArr = JSON.parse(localStorage.getItem("feedback")) || [];
+          feedbackArr.push(textareaValue);
+          localStorage.setItem("feedback", JSON.stringify(feedbackArr));
+        });
+        })
+      } else {
+        alert("You need to login to fill up the feedback form");
+    form.style.display = 'none';
+    let btn = document.createElement("button");
+    btn.innerText = "Login";
+    btn.addEventListener("click", () => {
+
+
+        window.open("login.html");
+    });
+    btn.style.marginLeft = "47%";
+    document.body.appendChild(btn); 
+}
+
+    }
+
+   
+    toggleFeedbackForm();
+
+  </script>
+</body>
+</html>

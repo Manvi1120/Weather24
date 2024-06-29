@@ -37,7 +37,7 @@ const weatherIcons = {
 
 const fetchData = (city) => {
     // Replace with your API key
-    const apiKey = "your_api_key";
+    const apiKey = "9eecbba5f80d484b8d6bdb623c95cbff";
 
     // Use fetch to make a request to the Weather API
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
@@ -99,7 +99,7 @@ const fetchData = (city) => {
 
 // Fetch weather data on document load for default city
 document.addEventListener("DOMContentLoaded", function () {
-    const defaultLocation = "istanbul";
+    const defaultLocation = "Chandigarh";
     fetchData(defaultLocation);
 });
 
@@ -118,3 +118,63 @@ form.addEventListener("submit", (e) => {
         input.value = "";
     }
 });
+
+
+function getCurrentLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showWeather, showError);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+function showWeather(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    // Replace 'YOUR_API_KEY' with your actual OpenWeatherMap API key
+    const apiKey = '9eecbba5f80d484b8d6bdb623c95cbff';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const city = data.name;
+            const temperature = data.main.temp;
+            const weatherDescription = data.weather[0].description;
+
+            alert(`Current Weather in ${city}: 
+            Temperature: ${temperature}°C, 
+             Description: ${weatherDescription}`
+                                
+                            );
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            alert('Failed to fetch weather data.');
+        });
+}
+
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+    }
+}
+
+
